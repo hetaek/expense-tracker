@@ -1,30 +1,47 @@
-import { StatusBar } from 'expo-status-bar';
-import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import ApiSrv from './ApiKeys';
-import * as firebase from 'firebase';
-import { TransItem } from './View/Main';
+import React from 'react';
+import { StyleSheet, Text, View, TouchableOpacity, Button } from 'react-native';
+import Login from './Component/Auth/Login'
+import Dashboard from './Component/Dashboard/HomeScreen'
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 
-firebase.initializeApp(ApiSrv.firebaseConfig);
+const Stack = createStackNavigator();
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text style={styles.text}>
-        Expense Tracker
-      </Text>
-      <TouchableOpacity
-        onPress={() => alert('Hello, world!')}
-        style={styles.button}>
-        <Text style={styles.buttonText}>Add/Modify an item</Text>
-      </TouchableOpacity>
-    </View>
-  );
+  return <Dashboard />
+
+  // return (
+  //   <>
+  //     <NavigationContainer>
+  //       <Stack.Navigator initialRouteName="Home">
+  //         <Stack.Screen
+  //           name="Home"
+  //           component={Dashboard.homeScreen}
+  //           options={{ title: 'Expense Tracker' }}
+  //         />
+  //         <Stack.Screen name="Details" component={Dashboard.addExpense} />
+  //       </Stack.Navigator>
+
+  //     </NavigationContainer>
+  //     <View style={styles.container}>
+  //       {/* <Text style={styles.text}>
+  //       Expense Tracker
+  //   </Text> */}
+  //       <TouchableOpacity
+  //         onPress={() => navigation.navigate('addExpense')}
+  //         style={styles.button}>
+  //         <Text style={styles.buttonText}>Add/Modify an item</Text>
+  //       </TouchableOpacity>
+  //     </View>
+  //   </>
+  // );
 }
+
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    flexDirection: 'column',
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
@@ -43,6 +60,8 @@ const styles = StyleSheet.create({
     fontSize: 24,
   },
 });
+
+
 
 
 
