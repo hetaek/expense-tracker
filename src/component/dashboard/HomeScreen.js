@@ -17,7 +17,7 @@ export default function HomeScreen({ navigation }) {
   const [balance, setBalance] = useState([])
   const [loading, setLoading] = useState([])
   useEffect(() => {
-    const subscriber = db.onSnapshot(querySnapshot => {
+    db.onSnapshot(querySnapshot => {
       const data = [];
       querySnapshot.forEach(documentSnapshot => {
         data.push({
@@ -29,7 +29,6 @@ export default function HomeScreen({ navigation }) {
       const total = amounts.reduce((acc, item) => (acc += item))
       setBalance(total);
       setLoading(false);
-      return () => subscriber();
     });
   }, []);
 

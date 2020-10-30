@@ -1,14 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import { Text, View, ActivityIndicator, Button } from 'react-native';
+import React, { useState } from 'react';
+import { Text, View, TouchableOpacity, Button, TextInput, Alert } from 'react-native';
 
-import * as firebase from 'firebase';
 import 'firebase/firestore';
+import * as firebase from 'firebase';
 
-import FirebaseConfig from '../../../ApiKeys'
 import styles from '../../../Styles'
 
-const AddExpense = ({ navigation }) => {
-  const [amount, setAmount] = useState()
+const db = firebase.firestore().collection('expense_tracker');
+
+export default function AddExpense({ navigation }) {
+  let [amount, setAmount] = useState('')
   const [category, setCategory] = useState()
   const [comment, setComment] = useState()
   const [date, setDate] = useState()
@@ -16,24 +17,6 @@ const AddExpense = ({ navigation }) => {
   const [type, setType] = useState()
   const [loading, setLoading] = useState(true);
 
-  const handleDate = (date) => {
-    setDate(date)
-  }
-  const handleAmount = (amount) => {
-    setAmount(parseInt(amount))
-  }
-  const handleItem = (item) => {
-    setItem(item)
-  }
-  const handleCategory = (category) => {
-    setCategory(category)
-  }
-  const handleType = (type) => {
-    setType(type)
-  }
-  const handleComment = (comment) => {
-    setComment(comment)
-  }
   const onSubmit = () => {
 
     const subscriber = db.add({
@@ -56,7 +39,7 @@ const AddExpense = ({ navigation }) => {
       })
     setLoading(false);
     setDate()
-    setAmount()
+    setAmount('')
     setItem()
     setCategory()
     setType()
@@ -68,12 +51,19 @@ const AddExpense = ({ navigation }) => {
   return (
     <>
       <View style={styles.container}>
-        <TextInput name={'date'} style={styles.textInput} value={date} placeholderTextColor={"red"} placeholder="Enter date..." onChangeText={handleDate} />
-        <TextInput name={'amount'} style={styles.textInput} value={amount} keyboardType="numeric" placeholderTextColor={"red"} placeholder="Enter amount...(add - for expense)" onChangeText={handleAmount} />
-        <TextInput name={'item'} style={styles.textInput} value={item} placeholderTextColor={"red"} placeholder="Enter item description..." onChangeText={handleItem} />
-        <TextInput name={'category'} style={styles.textInput} value={category} placeholderTextColor={"red"} placeholder="Enter category..." onChangeText={handleCategory} />
-        <TextInput name={'type'} style={styles.textInput} value={type} placeholderTextColor={"red"} placeholder="Enter payment type..." onChangeText={handleType} />
-        <TextInput name={'comments'} style={styles.textInput} value={comment} placeholderTextColor={"red"} placeholder="Enter comments..." onChangeText={handleComment} />
+        <TextInput name={"date"} style={styles.textInput} value={date} placeholderTextColor={"red"} 
+                   placeholder="Enter date..." onChangeText={date => {setDate(date)}} />
+        <TextInput name={"amount"} style={styles.textInput} value={amount} 
+                   keyboardType="numeric" placeholderTextColor={"red"} placeholder="Enter amount...(add - for expense)" 
+                   onChangeText={amount => {setAmount(parseFloat(amount))}} />
+        <TextInput name={"item"} style={styles.textInput} value={item} placeholderTextColor={"red"} 
+                   placeholder="Enter item description..." onChangeText={item => {setItem(item)}} />
+        <TextInput name={"category"} style={styles.textInput} value={category} placeholderTextColor={"red"} 
+                   placeholder="Enter category..." onChangeText={category => {setCategory(category)}} />
+        <TextInput name={"type"} style={styles.textInput} value={type} placeholderTextColor={"red"} 
+                   placeholder="Enter payment type..." onChangeText={type => {setType(type)}} />
+        <TextInput name={"comments"} style={styles.textInput} value={comment} placeholderTextColor={"red"} 
+                   placeholder="Enter comments..." onChangeText={comment => {setComment(comment)}} />
       </View>
       <View style={styles.buttonContainer}>
         <TouchableOpacity
